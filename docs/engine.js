@@ -79,11 +79,13 @@
     } else if (!hours.missing.length) hours.never = true;   // every sale loses money, so no hours figure makes sense
     return { money, hours };
   }
+  // adjust: [{ field, factor }] from the road test (an object of field: factor is accepted too)
   function adjusted(nums, adjust) {
     const out = { ...nums };
     let any = false;
+    const map = Array.isArray(adjust) ? Object.fromEntries(adjust.filter((a) => a && FIELDS.includes(a.field)).map((a) => [a.field, a.factor])) : adjust || {};
     for (const f of FIELDS) {
-      const k = adjust && adjust[f];
+      const k = map[f];
       if (typeof k === "number" && Number.isFinite(k) && k >= 0 && out[f] != null) { out[f] = out[f] * k; any = true; }
     }
     return { nums: out, any };
@@ -184,11 +186,9 @@
     for (const e of ["e1", "e2", "e3"]) {
       const x = r[e];
       if (!x || !clip(x.event)) continue;
-      const pairs = {};
-      for (const k of PKEYS) {
-        const y = (x.pairs || {})[k] || {};
-        pairs[k] = { status: okStatus(y.status), reason: clip(y.reason, 300) };
-      }
+      // start from the dashboard's lights; apply only the pairs the event changes
+      const pairs = Object.fromEntries(PKEYS.map((k) => [k, { status: base.pairs[k].status, reason: "" }]));
+      for (const y of Array.isArray(x.changes) ? x.changes : []) if (y && PKEYS.includes(y.pair) && STATUSES.includes(y.status)) pairs[y.pair] = { status: y.status, reason: clip(y.reason, 300) };
       const adj = adjusted(nums, x.adjust);
       const c = calc(adj.nums);
       // the numbers-owned lights follow the page's math under the event, never the AI's

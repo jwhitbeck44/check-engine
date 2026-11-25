@@ -111,11 +111,10 @@ Rules:
 - Every quote must be copied exactly from the canvas.`,
 
   ROAD: `JOB: A road test. Write three things that could happen to this venture on the road, then judge the seven pairs again with each event in force.
-- Each event hits a different block. Event e1 is aimed at the pair to watch first, named in <lights>; it hits one of that pair's two blocks. e2 and e3 hit two other blocks.
+- Each event hits a different block. block is the block the event lands on first: a partner or supplier event is kp, a time or skill event is ka or kr, a cost event is co, a price or funding event is rs, an event about the people is cs, a reach event is ch. Event e1 is aimed at the pair to watch first, named in <lights>; it hits one of that pair's two blocks. e2 and e3 hit two other blocks.
 - An event is one plain sentence, 20 words or fewer, the kind of thing that really happens to small ventures: the people you built it for leave town for the summer; your one channel changes its rules overnight; your costs go up 30%; your key partner quits; the free space starts charging rent; finals hit and you have almost no hours for three weeks; a bigger player starts giving your thing away for free. Fit it to this canvas. Make it hard but fair, not a disaster from nowhere.
-- adjust: if the event changes a number, give a multiplier for that field (costs up 30% is 1.3 on monthly_cost; half the customers leave is 0.5 on sales). Use null for every field it does not change. You never compute the result; the page does.
-- Then, for that event, give all seven pairs an answer as if the event had happened, using the same criteria. Start from the answers in <lights>. Change an answer only if the event changes it. For p5 and p7, give your best answer; the page will replace it from the numbers when it can.
-- reason: one sentence, 20 words or fewer. For a pair the event does not touch, reason is "".`,
+- adjust: if the event changes a number, list each changed field with a multiplier (costs up 30% is monthly_cost 1.3; half the customers leave is sales 0.5). If it changes no number, adjust is an empty list. You never compute the result; the page does.
+- changes: judge the seven pairs again as if the event had happened, using the same criteria and starting from the answers in <lights>. List only the pairs whose answer changes, with the new answer and one reason sentence, 20 words or fewer. If nothing changes, changes is an empty list. For p5 and p7, give your best answer; the page will replace it from the numbers when it can.`,
 };
 
 // The user message. The Worker fills each {{name}} from the page's fields.
@@ -147,7 +146,6 @@ const STATUS = { type: "string", enum: ["holds", "shaky", "breaks", "cant_tell"]
 const PKEYS = ["p1", "p2", "p3", "p4", "p5", "p6", "p7"];
 const obj = (props) => ({ type: "object", properties: props, required: Object.keys(props), additionalProperties: false });
 const str = { type: "string" };
-const nnum = { anyOf: [{ type: "number" }, { type: "null" }] };
 const BLOCK = { type: "string", enum: ["cs", "vp", "ch", "cr", "rs", "kr", "ka", "kp", "co"] };
 const FIELDS = ["price", "unit_cost", "sales", "monthly_cost", "pay", "hours_per_sale", "hours_have"];
 
@@ -168,8 +166,8 @@ const SCHEMAS = {
   ROAD: obj(Object.fromEntries(["e1", "e2", "e3"].map((e) => [e, obj({
     block: BLOCK,
     event: str,
-    adjust: obj(Object.fromEntries(FIELDS.map((f) => [f, nnum]))),
-    pairs: obj(Object.fromEntries(PKEYS.map((k) => [k, obj({ status: STATUS, reason: str })]))),
+    adjust: { type: "array", items: obj({ field: { type: "string", enum: FIELDS }, factor: { type: "number" } }) },
+    changes: { type: "array", items: obj({ pair: { type: "string", enum: PKEYS }, status: STATUS, reason: str }) },
   })]))),
 };
 

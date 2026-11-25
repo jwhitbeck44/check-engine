@@ -52,9 +52,8 @@ const NUMBERS = {
 };
 const ROAD = (base) => {
   const ev = (block, event, change, adjust) => {
-    const pairs = Object.fromEntries(PK.map((k, i) => [k, { status: base[i], reason: "" }]));
-    for (const [k, st] of Object.entries(change)) pairs[k] = { status: st, reason: "Because of the event, " + k + " changes." };
-    return { block, event, adjust: { price: null, unit_cost: null, sales: null, monthly_cost: null, pay: null, hours_per_sale: null, hours_have: null, ...adjust }, pairs };
+    const changes = Object.entries(change).map(([pair, status]) => ({ pair, status, reason: "Because of the event, " + pair + " changes." }));
+    return { block, event, adjust: Object.entries(adjust).map(([field, factor]) => ({ field, factor })), changes };
   };
   return { e1: ev("rs", "Half your nurses switch to day shifts.", { p3: "shaky" }, {}),
     e2: ev("co", "The church raises kitchen rent a lot.", {}, { monthly_cost: 3 }),
