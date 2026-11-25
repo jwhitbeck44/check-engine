@@ -7,6 +7,8 @@ import { CANVASES } from "./canvases.mjs";
 import { callDirect, varsFor, E } from "./direct.mjs";
 
 const RUNS = Number(process.argv[2] || 5), MODEL = process.argv[3] || "claude-opus-5-5", TAG = process.argv[4] || MODEL;
+const ONLY = process.argv[5] ? process.argv[5].split(",") : null;   // optional: run only these canvas ids
+const LIST = ONLY ? CANVASES.filter((c) => ONLY.includes(c.id)) : CANVASES;
 const out = fileURLToPath(new URL(`../_local/steady-${TAG}.json`, import.meta.url));
 const SHORT = { holds: "H", shaky: "S", breaks: "B", cant_tell: "?" };
 
@@ -27,7 +29,7 @@ async function one(cv) {
 }
 
 const results = {};
-for (const cv of CANVASES) {
+for (const cv of LIST) {
   // first call alone so the cache is written once, then the rest in parallel
   const first = await one(cv);
   const rest = await Promise.all(Array.from({ length: RUNS - 1 }, () => one(cv)));
@@ -41,7 +43,7 @@ fs.writeFileSync(out, JSON.stringify({ model: MODEL, runs: RUNS, at: new Date().
 // agreement: for each pair, the share of runs that gave the most common answer
 let calls = 0, total = 0, ms = 0, dropped = 0, quotes = 0;
 const table = [];
-for (const cv of CANVASES) {
+for (const cv of LIST) {
   const runs = results[cv.id].filter((r) => !r.error);
   const row = { canvas: cv.id };
   for (const k of [...E.PKEYS, "watch", "head"]) {

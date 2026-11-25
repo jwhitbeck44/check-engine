@@ -151,7 +151,10 @@
     if (c.hours.status !== "cant_tell") { pairs.p5.status = c.hours.status; pairs.p5.src = "hours"; }
     let watch = PKEYS.includes(r.watch_first) ? r.watch_first : null;
     const reds = PKEYS.filter((k) => pairs[k].status === "breaks");
+    const ambers = PKEYS.filter((k) => pairs[k].status === "shaky");
+    // the one to watch must be one of the worst lights present: a red if any, else an amber if any
     if (reds.length && (!watch || pairs[watch].status !== "breaks")) watch = reds[0];
+    else if (!reds.length && ambers.length && (!watch || pairs[watch].status !== "shaky")) watch = ambers[0];
     if (!watch) watch = PKEYS.slice().sort((a, b) => RANK[pairs[b].status] - RANK[pairs[a].status])[0];
     const assumptions = (Array.isArray(r.assumptions) ? r.assumptions : []).slice(0, 3)
       .map((a) => ({ belief: clip(a && a.belief, 200), test: clip(a && a.test, 300) })).filter((a) => a.belief);

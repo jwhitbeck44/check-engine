@@ -33,25 +33,27 @@ cant_tell: a block is empty or too vague to judge. Say exactly what to add.
 
 What "specific" means: a person could act on it this week. A Tribe is specific when you could go find ten of these people (a role, a place, a situation), not "students," "everyone," "people who like music," or "small businesses." A Distribution is specific when it names the actual place or route ("the break room fridge at two hospitals," "the Tuesday open mic"), not "social media," "online," "marketing," or "word of mouth" alone. A Fuel is specific when it names a price or a funder, not "sales" or "donations" alone.
 
+What is never a reason for shaky on its own: that nothing has been tested, that nobody has paid yet, that it might not work in real life, or a doubt the words give you no grounds for. Every canvas is untested; the check is whether the blocks agree as written. Shaky needs a specific missing link you can name from the words: a person, permission, place, price or step the link depends on that the canvas never mentions. Treat what is written as the plan.
+
 When you are unsure between two answers, give the less favorable one. Order from most to least favorable: holds, shaky, breaks. If you hesitate between holds and cant_tell because a block is thin, give cant_tell. A named gap teaches more than a pass.
 
 THE SEVEN PAIRS AND WHAT EACH ANSWER MEANS
 p1. The Tribe and The Fix. Would these people say this is their problem?
-- holds: The Fix names a pain or want that this exact group plausibly has in their week, close to how they would say it.
-- shaky: plausible, but nothing written shows this group feels it (no sign they complain, ask, or already pay for a workaround). Name the guess.
+- holds: The Fix names a pain or want this exact group plausibly has, and the canvas shows a sign they feel it: they told you, they complain, they already pay for a workaround, or The Tribe itself describes the pain.
+- shaky: plausible, but no such sign is written anywhere on the canvas. This is the one pair where a missing sign of the pain is the missing link. Name the guess.
 - breaks: The Fix solves a problem that belongs to a different group than The Tribe, or The Tribe as written would not have it.
 - cant_tell: The Tribe is broad or empty, or The Fix is empty or only lists features with no pain or joy.
 
 p2. The Distribution and The Tribe. Does this channel reach these people where they already are?
 - holds: the channel names a place, list, group, event or platform this Tribe already uses.
-- shaky: a real channel, but nothing shows this Tribe is there; or it depends on going viral, an algorithm, or someone's permission that is not written.
+- shaky: a real channel, but nothing written shows this Tribe is there; or it depends on going viral or an algorithm; or it depends on a person or group to do the reaching who appears nowhere else on the canvas. If that person or group appears anywhere on the canvas (for example in The Co-Conspirators), count them as on board.
 - breaks: the channel cannot reach this group as written (the wrong place, the wrong platform, the wrong age).
 - cant_tell: the channel is empty or only "social media," "online," "marketing," "ads," or "word of mouth."
-- Volume: if the page gives an expected sales number and the channel as written could not plausibly bring that many sales a month (one flyer, a few friends, one post), set volume_flag to true and give at least shaky. Say why in one line in volume_note, starting with the channel. This is a judgment call, so say what would change your mind. If there is no sales number or no such problem, volume_flag is false and volume_note is "".
+- Volume: set volume_flag to true only when the gap is wide: the people this channel as written could plausibly reach in a month are fewer than the expected sales per month, or the channel happens once a year while sales are expected every month. Then give at least shaky. Doubts about how many will say yes are not a volume flag. Say why in one line in volume_note, starting with the channel. This is a judgment call, so say what would change your mind. If there is no sales number or no such problem, volume_flag is false and volume_note is "".
 
 p3. The Fuel and The Tribe. Will these people pay this, this way?
-- holds: the price and the way of paying fit what this group has and how it pays. For grants or gifts, a named kind of funder that funds this kind of work.
-- shaky: plausible, but it rests on an untested willingness to pay, or the payer is not the user and the payer is not named.
+- holds: the price and the way of paying fit what this group has and how it pays, as written. For grants or gifts, a named kind of funder that funds this kind of work. Not having sold yet does not lower this.
+- shaky: the price looks high for what the canvas says about this group; or the payer is not the user and the payer is not named (a named group counts as named: "the team," "parents," "the club," "the school"); or the canvas names a free or cheaper option this group already uses and gives no reason they would switch.
 - breaks: the price is clearly out of reach for The Tribe as written, or the way of paying conflicts with the group or the need (a subscription for a one-time need, charging people the venture says it serves for free, kids paying with cards).
 - cant_tell: no price and no funder, or only "sales," "donations," or "sponsors" with nobody named.
 
